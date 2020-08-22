@@ -1,4 +1,4 @@
-import React, {useReducer, useEffect, useRef} from 'react'
+import React, {useReducer, useEffect, useRef, useState} from 'react'
 
 import './App.css';
 import Grid from './components/Grid'
@@ -8,6 +8,7 @@ import reducer, {generateRandomPosition} from './Reducer'
 
 function App() {
   let timer = useRef(null)
+  const [bestScore, setBestScore] = useState(0)
   const N = 8
     const gridList = new Array(N).fill(0)
     for(let i=0; i<gridList.length; i++) {
@@ -24,6 +25,11 @@ function App() {
     });
 
     useEffect(() => {
+      const storedScore = localStorage.getItem('score')
+      if(storedScore && Number.isNaN(Number(storedScore)) === false) {
+        console.log('storedScore ', storedScore)
+        setBestScore(storedScore)
+      }
       const {row: boneRow, col: boneCol} = generateRandomPosition(gridList)
       dispatch({ type: 'add_position', row: boneRow, col: boneCol, value: 'B' })
       const {row: rottenBoneRow, col: rottenBoneCol} = generateRandomPosition(gridList)
@@ -50,6 +56,22 @@ function App() {
     }
 })
 
+useEffect(() => {
+  if(state.isGameOver) {
+    const storedScore = localStorage.getItem('score')
+    console.log('Game is Over!!!!!! ', storedScore, state.score)
+    if(storedScore === null) {
+      localStorage.setItem('score', state.score)
+      setBestScore(state.score)
+      return
+    }
+    if(Number.isNaN(Number(storedScore)) === false && storedScore < state.score) {
+      localStorage.setItem('score', state.score)
+      setBestScore(state.score)
+      return
+    }
+  }
+})
 const handleKeyUp = (event) => {
     switch (event.key) {
         case "ArrowUp":
@@ -69,13 +91,13 @@ const handleKeyUp = (event) => {
             break;
     }
 }
-
+  console.log(bestScore)
   return (
     <div className="App">
       <Header />
       <section className="scores">
         <Score score={state.score} text="Score" />
-        <Score score={state.score} text="Best" />
+        <Score score={bestScore} text="Best" />
       </section>
       <Grid N={8} gridList={state.gridList} dogDirection={state.dogDirection}/>
       <article className="description">
