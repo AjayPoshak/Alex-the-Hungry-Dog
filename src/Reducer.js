@@ -54,9 +54,11 @@ export default function reducer(state, action) {
                 const {row: boneRow, col: boneCol}  = generateRandomPosition(copiedGridList)
                 copiedGridList[boneRow][boneCol] = 'B'
                 state.speed -= 200
+                state.score += 1
                 copiedGridList[updatedDogRow][updatedDogCol] = 'D'
                 return {
                     ...state,
+                    score: state.score,
                     speed: state.speed,
                     gridList: copiedGridList,
                     dogDirection: updatedDogDirection,
