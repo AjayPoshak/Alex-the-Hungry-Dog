@@ -56,3 +56,16 @@ body {
   height: 2em;
   width: 2em;
 }
+
+.grid-container .dog.left {
+  transform: rotate(0);
+}
+.grid-container .dog.right {
+  transform: rotateY(180deg);
+}
+.grid-container .dog.up {
+  transform: rotate(90deg);
+}
+.grid-container .dog.down {
+  transform: rotate(-90deg);
+}

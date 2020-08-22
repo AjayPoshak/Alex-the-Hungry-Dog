@@ -12,7 +12,7 @@ const Grid = (props) => {
     for(let i=0; i<gridList.length; i++) {
         gridList[i] = new Array(N).fill(0)
     }
-
+    gridList[0][0] = 'D'
     const [state, dispatch] = useReducer(reducer, {
         gridList,
         speed: 2000,
@@ -75,7 +75,9 @@ const Grid = (props) => {
                     <section className="row" key={index}>
                         {row.map((element, index) => {
                             if(element === 'D') {
-                                return <div className="grid-element" key={index}><Dog /></div>
+                                return (<div className="grid-element" key={index}>
+                                    <Dog direction={state.dogDirection} />
+                                    </div>)
                             }
                             if(element === 'B') {
                                 return <div className="grid-element" key={index}><Bone isRotten={false}/></div>
