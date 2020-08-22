@@ -1,13 +1,58 @@
+:root {
+  --background-color: #faf8ef;
+  --primary-color: #776e65;
+  --grid-element-height: 3em;
+  --grid-element-width: 3em;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
   margin: 0;
+  padding: 1em;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+  background-color: var(--background-color);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.header {
+  width: 100%;
+  height: 50px;
+  padding-bottom: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
+}
+
+.grid-container {
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+}
+
+.grid-container .row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grid-container .row .grid-element {
+  display: flex;
+  height: var(--grid-element-height);
+  width: var(--grid-element-width);
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--primary-color);
+}
+
+.grid-container .bone, .grid-container .dog {
+  height: 2em;
+  width: 2em;
 }
