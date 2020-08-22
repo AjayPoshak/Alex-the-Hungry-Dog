@@ -1,131 +1,31 @@
 import React, {useReducer, useEffect, useRef} from 'react'
+
 import Dog from './Dog'
 import Bone from './Bone'
+import reducer, {generateRandomPosition} from './Reducer'
 
-function reducer(state, action) {
-    switch (action.type) {
-        case 'add_bone_position':
-            const {boneRow, boneCol} = action
-            const copiedGridList = [...state.gridList]
-            copiedGridList[boneRow][boneCol] = 'B'
-            return {...state, gridList: copiedGridList}
-
-        case 'init_dog_position': {
-            const [dogRow, dogCol] = state.currentDogPosition
-            const copiedGridList = [...state.gridList]
-            copiedGridList[dogRow][dogCol] = 'D'
-            return {...state, gridList: copiedGridList}
-        }
-
-        case 'add_rotten_bone_position': {
-            const {rottenBoneRow, rottenBoneCol} = action
-            const copiedGridList = [...state.gridList]
-            copiedGridList[rottenBoneRow][rottenBoneCol] = 'R'
-            return {...state, gridList: copiedGridList}
-        }
-
-        case 'update_dog_position': {
-            const {dogDirection} = state
-            const [dogRow, dogCol] = state.currentDogPosition
-            let updatedDogRow = dogRow, updatedDogCol = dogCol, updatedDogDirection = dogDirection
-            switch (dogDirection) {
-                case 'up':
-                    updatedDogRow -= 1
-                    if(updatedDogRow < 0) {
-                        updatedDogDirection = 'down'
-                        updatedDogRow = 0
-                    }
-                    break;
-            
-                case 'down':
-                    updatedDogRow += 1
-                    if(updatedDogRow >= 8) {
-                        updatedDogDirection = 'up'
-                        updatedDogRow = 7
-                    }
-                    break;
-
-                case 'left':
-                    updatedDogCol -= 1
-                    if(updatedDogCol < 0) {
-                        updatedDogDirection = 'right'
-                        updatedDogCol = 0
-                    }
-                    break;
-
-                case 'right':
-                    updatedDogCol += 1
-                    if(updatedDogCol >= 8) {
-                        updatedDogDirection = 'left'
-                        updatedDogCol = 7
-                    }
-                    break;
-
-                default:
-                    break;
-            }
-            const copiedGridList = [...state.gridList]
-            copiedGridList[dogRow][dogCol] = 0
-            if(copiedGridList[updatedDogRow][updatedDogCol] === 'B') {
-                const {row: boneRow, col: boneCol}  = generateRandomPosition(copiedGridList)
-                copiedGridList[boneRow][boneCol] = 'B'
-            }
-            let gameEnds = false
-            if(copiedGridList[updatedDogRow][updatedDogCol] === 'R') {
-                console.log('Game Over !!!!!')
-                gameEnds = true
-            }
-            copiedGridList[updatedDogRow][updatedDogCol] = 'D'
-            return {
-                ...state,
-                gameEnds,
-                gridList: copiedGridList,
-                dogDirection: updatedDogDirection,
-                currentDogPosition: [updatedDogRow, updatedDogCol]
-            }
-        }
-
-        case 'update_dog_direction': {
-            return {...state, dogDirection: action.direction,}
-        }
-        default:
-            return {...state}
-    }
-}
-
-
-function generateRandomPosition(grid) {
-    // bone position randomly
-    let randomRow = Math.floor(Math.random() * 100) % 7
-    let randomCol = Math.floor(Math.random() * 100) % 7
-
-    while(randomRow >= 0 && randomRow < 8 && randomCol >=0 && randomCol < 8 && grid[randomRow][randomCol] !== 0) {
-        randomRow = Math.floor(Math.random() * 100) % 7
-        randomCol = Math.floor(Math.random() * 100) % 7
-    }
-    // bone position in non-empty cell
-    return {
-        row: randomRow,
-        col: randomCol
-    }
-}
 
 const Grid = (props) => {
     const {N} = props
-    let timer = ''
+    let timer = useRef(null)
     const gridList = new Array(N).fill(0)
     for(let i=0; i<gridList.length; i++) {
         gridList[i] = new Array(N).fill(0)
     }
 
-    const [state, dispatch] = useReducer(reducer, {gridList, dogDirection: 'down', currentDogPosition: [0,0], gameEnds: false});
+    const [state, dispatch] = useReducer(reducer, {
+        gridList,
+        speed: 2000,
+        isGameOver: false,
+        dogDirection: 'down',
+        currentDogPosition: [0,0],
+    });
     // const gameEndsRef = useRef(state.gameEnds)
     useEffect(() => {
-        // dispatch({ type: 'init_dog_position' })
         const {row: boneRow, col: boneCol} = generateRandomPosition(gridList)
-        dispatch({ type: 'add_bone_position', boneRow, boneCol })
+        dispatch({ type: 'add_position', row: boneRow, col: boneCol, value: 'B' })
         const {row: rottenBoneRow, col: rottenBoneCol} = generateRandomPosition(gridList)
-        dispatch({ type: 'add_rotten_bone_position', rottenBoneRow, rottenBoneCol })
+        dispatch({ type: 'add_position', row: rottenBoneRow, col: rottenBoneCol, value: 'R' })
 
         document.addEventListener('keyup', handleKeyUp)
         return () => {
@@ -134,13 +34,21 @@ const Grid = (props) => {
     }, [])
 
     useEffect(() => {
-        setInterval(() => {
+        if(state.isGameOver) return
+        timer.current = setInterval(() => {
             dispatch({ type: 'update_dog_position' })
-        }, 2000);
-    }, [])
+        }, state.speed);
+
+        if(state.isGameOver) {
+            clearInterval(timer.current)
+            timer.current = null
+        }
+        return () => {
+            if(timer.current) clearInterval(timer.current)
+        }
+    })
 
     const handleKeyUp = (event) => {
-        // const dogDirection = directionRef.current
         switch (event.key) {
             case "ArrowUp":
                 dispatch({type: 'update_dog_direction', direction: 'up'})
