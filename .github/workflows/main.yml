@@ -25,9 +25,9 @@ jobs:
           persist-credentials: false
 
     - name: Install and Build 🔧 
-        run:|
-          npm install
-          npm run build
+      run: |
+          yarn
+          yarn build
 
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@3.5.9
