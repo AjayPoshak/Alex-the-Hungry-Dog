@@ -59,7 +59,7 @@ function App() {
 useEffect(() => {
   if(state.isGameOver) {
     const storedScore = localStorage.getItem('score')
-    console.log('Game is Over!!!!!! ', storedScore, state.score)
+
     if(storedScore === null) {
       localStorage.setItem('score', state.score)
       setBestScore(state.score)
@@ -71,7 +71,8 @@ useEffect(() => {
       return
     }
   }
-})
+},[state.isGameOver, state.score])
+
 const handleKeyUp = (event) => {
     switch (event.key) {
         case "ArrowUp":
