@@ -5,7 +5,7 @@ import Bone from './Bone'
 
 
 const Grid = (props) => {
-    const {N, gridList, dogDirection} = props
+    const {gridList, dogDirection} = props
     return (
         <section className="grid-container">
             {gridList.map((row, index) => {

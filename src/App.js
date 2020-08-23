@@ -26,20 +26,22 @@ function App() {
 
     useEffect(() => {
       const storedScore = localStorage.getItem('score')
+      // Retrieve best score from local storage
       if(storedScore && Number.isNaN(Number(storedScore)) === false) {
-        console.log('storedScore ', storedScore)
         setBestScore(storedScore)
       }
-      const {row: boneRow, col: boneCol} = generateRandomPosition(gridList)
+    }, [])
+
+    useEffect(() => {
+      const {row: boneRow, col: boneCol} = generateRandomPosition(state.gridList)
       dispatch({ type: 'add_position', row: boneRow, col: boneCol, value: 'B' })
-      const {row: rottenBoneRow, col: rottenBoneCol} = generateRandomPosition(gridList)
+      const {row: rottenBoneRow, col: rottenBoneCol} = generateRandomPosition(state.gridList)
       dispatch({ type: 'add_position', row: rottenBoneRow, col: rottenBoneCol, value: 'R' })
 
       document.addEventListener('keyup', handleKeyUp)
-      return () => {
-          document.removeEventListener('keyup', handleKeyUp)
-      }
-  }, [])
+      return () => document.removeEventListener('keyup', handleKeyUp)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.gridList.length])
 
   useEffect(() => {
     if(state.isGameOver) return
@@ -57,7 +59,7 @@ function App() {
 })
 
 useEffect(() => {
-  if(state.isGameOver) {
+  if(state.isGameOver === true) {
     const storedScore = localStorage.getItem('score')
 
     if(storedScore === null) {
@@ -92,7 +94,6 @@ const handleKeyUp = (event) => {
             break;
     }
 }
-  console.log(bestScore)
   return (
     <div className="App">
       <Header />
