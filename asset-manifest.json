@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/static/css/main.182765d6.chunk.css",
-    "main.js": "/static/js/main.2a79c4ed.chunk.js",
-    "main.js.map": "/static/js/main.2a79c4ed.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.9a6b461c.js",
-    "runtime-main.js.map": "/static/js/runtime-main.9a6b461c.js.map",
-    "static/js/2.c6d4bf3a.chunk.js": "/static/js/2.c6d4bf3a.chunk.js",
-    "static/js/2.c6d4bf3a.chunk.js.map": "/static/js/2.c6d4bf3a.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.8d9d44f43128164a63791ecacf86f9ef.js": "/precache-manifest.8d9d44f43128164a63791ecacf86f9ef.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/main.182765d6.chunk.css.map": "/static/css/main.182765d6.chunk.css.map",
-    "static/js/2.c6d4bf3a.chunk.js.LICENSE.txt": "/static/js/2.c6d4bf3a.chunk.js.LICENSE.txt",
-    "static/media/bone.svg": "/static/media/bone.7475f535.svg",
-    "static/media/dog.svg": "/static/media/dog.ae075a90.svg",
-    "static/media/rotten_meat.svg": "/static/media/rotten_meat.bc3d20ac.svg"
+    "main.css": "/Alex-the-Hungry-Dog/static/css/main.182765d6.chunk.css",
+    "main.js": "/Alex-the-Hungry-Dog/static/js/main.f23e7207.chunk.js",
+    "main.js.map": "/Alex-the-Hungry-Dog/static/js/main.f23e7207.chunk.js.map",
+    "runtime-main.js": "/Alex-the-Hungry-Dog/static/js/runtime-main.9fa01993.js",
+    "runtime-main.js.map": "/Alex-the-Hungry-Dog/static/js/runtime-main.9fa01993.js.map",
+    "static/js/2.c6d4bf3a.chunk.js": "/Alex-the-Hungry-Dog/static/js/2.c6d4bf3a.chunk.js",
+    "static/js/2.c6d4bf3a.chunk.js.map": "/Alex-the-Hungry-Dog/static/js/2.c6d4bf3a.chunk.js.map",
+    "index.html": "/Alex-the-Hungry-Dog/index.html",
+    "precache-manifest.a4742067c8795598235f74a7e5c231a5.js": "/Alex-the-Hungry-Dog/precache-manifest.a4742067c8795598235f74a7e5c231a5.js",
+    "service-worker.js": "/Alex-the-Hungry-Dog/service-worker.js",
+    "static/css/main.182765d6.chunk.css.map": "/Alex-the-Hungry-Dog/static/css/main.182765d6.chunk.css.map",
+    "static/js/2.c6d4bf3a.chunk.js.LICENSE.txt": "/Alex-the-Hungry-Dog/static/js/2.c6d4bf3a.chunk.js.LICENSE.txt",
+    "static/media/bone.svg": "/Alex-the-Hungry-Dog/static/media/bone.7475f535.svg",
+    "static/media/dog.svg": "/Alex-the-Hungry-Dog/static/media/dog.ae075a90.svg",
+    "static/media/rotten_meat.svg": "/Alex-the-Hungry-Dog/static/media/rotten_meat.bc3d20ac.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.9a6b461c.js",
+    "static/js/runtime-main.9fa01993.js",
     "static/js/2.c6d4bf3a.chunk.js",
     "static/css/main.182765d6.chunk.css",
-    "static/js/main.2a79c4ed.chunk.js"
+    "static/js/main.f23e7207.chunk.js"
   ]
 }
