@@ -91,6 +91,11 @@ export default function reducer(state, action) {
         case 'reset_game_state': {
             return {...action.newState}
         }
+
+        case 'start_game': {
+            return {...state, shouldStartGame: true}
+        }
+
         default:
             return state
     }
