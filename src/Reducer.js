@@ -87,6 +87,10 @@ export default function reducer(state, action) {
         case 'update_dog_direction': {
             return {...state, dogDirection: action.direction,}
         }
+
+        case 'reset_game_state': {
+            return {...action.newState}
+        }
         default:
             return state
     }
