@@ -47,6 +47,7 @@ body {
 .grid-container {
   display: flex;
   margin: 0 auto;
+  position: relative;
   flex-direction: column;
 }
 
@@ -117,7 +118,8 @@ body {
   font-weight: bold;
 }
 
-.game-over-overlay {
+.game-over-overlay,
+.game-start-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -139,6 +141,24 @@ body {
   align-items: center;
   font-size: 2em;
   font-weight: bold;
+}
+
+.game-start-container {
+  top: 0;
+  left: 0;
+  z-index: 9;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.game-start-container img {
+  height: 4em;
+  width: 4em;
 }
 
 .game-over-container .close {

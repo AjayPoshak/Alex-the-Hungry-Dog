@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useReducer, useEffect, useRef, useState } from "react";
 
 import "./App.css";
@@ -22,10 +23,10 @@ function App() {
     speed: 2000,
     isGameOver: false,
     dogDirection: "down",
+    shouldStartGame: false,
     currentDogPosition: [0, 0],
-  }
+  };
   const [state, dispatch] = useReducer(reducer, initialState);
-
 
   useEffect(() => {
     const storedScore = localStorage.getItem("score");
@@ -36,6 +37,7 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (state.shouldStartGame === false) return;
     const { row: boneRow, col: boneCol } = generateRandomPosition(
       state.gridList
     );
@@ -53,10 +55,10 @@ function App() {
     document.addEventListener("keyup", handleKeyUp);
     return () => document.removeEventListener("keyup", handleKeyUp);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.gridList.length]);
+  }, [state.gridList.length, state.shouldStartGame]);
 
   useEffect(() => {
-    if (state.isGameOver) return;
+    if (state.isGameOver || state.shouldStartGame === false) return;
     timer.current = setInterval(() => {
       dispatch({ type: "update_dog_position" });
     }, state.speed);
@@ -109,7 +111,9 @@ function App() {
         break;
     }
   };
-  const onGameOverCloseClick = () => dispatch({type: 'reset_game_state', newState: initialState})
+  const onGameOverCloseClick = () =>
+    dispatch({ type: "reset_game_state", newState: initialState });
+  const handlePlayClick = () => dispatch({ type: "start_game" });
 
   return (
     <div className="App">
@@ -118,8 +122,17 @@ function App() {
         <Score score={state.score} text="Score" />
         <Score score={bestScore} text="Best" />
       </section>
-      <Grid N={8} gridList={state.gridList} dogDirection={state.dogDirection} />
-      {state.isGameOver ? <GameOver score={state.score} onCloseClick={onGameOverCloseClick} /> : null}
+
+      <Grid
+        N={8}
+        gridList={state.gridList}
+        dogDirection={state.dogDirection}
+        handlePlayClick={handlePlayClick}
+        shouldStartGame={state.shouldStartGame}
+      />
+      {state.isGameOver ? (
+        <GameOver score={state.score} onCloseClick={onGameOverCloseClick} />
+      ) : null}
       <article className="description">
         <p className="text">
           This is the game about Alex, the hungry dog. Help Alex to find the
@@ -131,6 +144,18 @@ function App() {
           Please use the arrow keys on keyboard to move Alex around.
         </p>
       </article>
+      <footer>
+        <p>
+          Icons made by
+          <a href="https://www.flaticon.com/authors/freepik" title="Freepik">
+            Freepik
+          </a>
+          from
+          <a href="https://www.flaticon.com/" title="Flaticon">
+            www.flaticon.com
+          </a>
+        </p>
+      </footer>
     </div>
   );
 }
